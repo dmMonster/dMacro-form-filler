@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "dMacro - auto form filler",
+  "version": "0.1",
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "storage"
+  ],
+  "browser_action": {
+    "default_icon": "icons/dMacro.png",
+    "default_title": "dMacro",
+    "default_popup": "popup/menu.html"
+  }
+}
