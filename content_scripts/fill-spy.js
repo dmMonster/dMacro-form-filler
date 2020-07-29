@@ -1,9 +1,10 @@
 (function () {
-
     if (window.hasRun) {
         return;
     }
     window.hasRun = true;
+    let tmpMacroName;
+
 
     function saveValue(e) {
         let targetElement = e.target;
@@ -23,21 +24,32 @@
         targetElement.name && (inputSelector += "[name='" + targetElement.name + "']");
 
 
-        //TODO change od static name to dynamic - testSite
-        browser.storage.local.get("testSite").then((prevState) => {
+        //TODO change code organizations: save data to tmp, when user click stop -> save to storage
+        browser.storage.local.get(tmpMacroName).then((prevState) => {
+            console.log(tmpMacroName);
             let newState = {
-                ...prevState['testSite'],
+                ...prevState[tmpMacroName],
                 [inputSelector]: targetElement.value,
             };
-            browser.storage.local.set({testSite: newState});
+            browser.storage.local.set({[tmpMacroName]: newState});
         });
+    }
+
+    function changeMacroName() {
+
     }
 
     browser.runtime.onMessage.addListener((message) => {
         if (message.command === "start") {
             document.body.addEventListener("input", saveValue, false);
+
+            tmpMacroName = Date.now().toString();
+            console.log("test name", tmpMacroName);
+
         } else if (message.command === "stop") {
             document.body.removeEventListener("input", saveValue, false);
+
+            console.log("test name2", tmpMacroName);
         }
     });
 
