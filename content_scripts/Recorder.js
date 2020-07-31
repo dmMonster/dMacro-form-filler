@@ -6,16 +6,16 @@ export default class Recorder {
         });
     }
 
-    test() {
-       // this.recordedForm.push('test ' + Date.now());
-        //alert('test');
-       // return (`console.log(document.getElementsByTagName('input'))`)
-}
+    async checkRunStatus() {
+        let activeTab = await browser.tabs.query({active: true, currentWindow: true});
+        let response = await browser.tabs.sendMessage(activeTab[0].id, {
+            command: "status",
+        });
+        return response.response;
+    }
 
     startRecord() {
-       // alert("ececuted");
         browser.tabs.query({active: true, currentWindow: true}).then((at) => {
-            console.log(at);
             browser.tabs.sendMessage(at[0].id, {
                 command: "start",
             });
@@ -24,18 +24,24 @@ export default class Recorder {
 
     stopRecord() {
         browser.tabs.query({active: true, currentWindow: true}).then((at) => {
-            console.log(at);
-              browser.tabs.sendMessage(at[0].id, {
+            browser.tabs.sendMessage(at[0].id, {
                 command: "stop",
-              });
+            });
+        });
+    }
+
+    play(macroName) {
+        browser.tabs.executeScript({
+            file: "/content_scripts/macro-player.js",
+            allFrames: false
         });
 
-       // console.log("ttt", tabs);
-      //  browser.tabs.sendMessage(tabs[0].id, {
-       //     command: "Test",
-      //  });
-       // const executing = browser.tabs.executeScript({
-         //   code: `console.log('` + JSON.stringify(this.recordedForm) + `');`
-       // });
+        browser.tabs.query({active: true, currentWindow: true}).then((at) => {
+            browser.tabs.sendMessage(at[0].id, {
+                command: "play",
+                name: macroName,
+            });
+        });
+
     }
 }

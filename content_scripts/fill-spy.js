@@ -1,14 +1,15 @@
+"use strict";
 (function () {
-    if (window.hasRun) {
+    //prevent multiple script execute
+    if (window.ececuted) {
         return;
     }
-    window.hasRun = true;
-    let tmpMacroName;
-
+    window.ececuted = true;
+    let running = false;
+    let dataToSave = {};
 
     function saveValue(e) {
         let targetElement = e.target;
-
         let inputSelector = "";
 
         targetElement.form && (inputSelector = "form");
@@ -23,33 +24,32 @@
 
         targetElement.name && (inputSelector += "[name='" + targetElement.name + "']");
 
-
-        //TODO change code organizations: save data to tmp, when user click stop -> save to storage
-        browser.storage.local.get(tmpMacroName).then((prevState) => {
-            console.log(tmpMacroName);
-            let newState = {
-                ...prevState[tmpMacroName],
-                [inputSelector]: targetElement.value,
-            };
-            browser.storage.local.set({[tmpMacroName]: newState});
-        });
+        dataToSave = {
+            ...dataToSave,
+            [inputSelector]: targetElement.value,
+        };
     }
 
-    function changeMacroName() {
+    function saveMacro(dataToSave) {
+        let macroName = prompt("Enter the macro name", Date.now().toString());
 
+        console.log(dataToSave);
+
+        //TODO check if macro exists
+        browser.storage.local.set({[macroName]: dataToSave});
     }
 
     browser.runtime.onMessage.addListener((message) => {
         if (message.command === "start") {
             document.body.addEventListener("input", saveValue, false);
-
-            tmpMacroName = Date.now().toString();
-            console.log("test name", tmpMacroName);
-
+            running = true;
         } else if (message.command === "stop") {
             document.body.removeEventListener("input", saveValue, false);
-
-            console.log("test name2", tmpMacroName);
+            saveMacro(dataToSave);
+            dataToSave = {};
+            running = false;
+        } else if(message.command === "status") {
+            return Promise.resolve({response: running});
         }
     });
 
