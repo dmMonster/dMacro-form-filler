@@ -42,6 +42,10 @@ export default class Recorder {
                 name: macroName,
             });
         });
+    }
 
+    delete(macroName) {
+        confirm("Deleting macro: " + macroName + ". Are you sure?");
+        return browser.storage.local.remove(macroName);
     }
 }

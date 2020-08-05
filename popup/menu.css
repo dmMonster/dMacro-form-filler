@@ -39,6 +39,10 @@ body {
     width: 100%;
 }
 
+.btn-delete {
+    background-color: #e31100;
+}
+
 .btn:hover {
     box-shadow: 1px 1px 5px black;
     cursor: pointer;

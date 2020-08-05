@@ -6,6 +6,7 @@ function initialize() {
     const recordButton = document.querySelector("#record");
     const playButton = document.querySelector("#playMacro");
     const selectList = document.getElementById("selectedMacro");
+    const deleteButton = document.getElementById("deleteMacro");
     initMacroList();
 
     let record = new Recorder();
@@ -20,13 +21,21 @@ function initialize() {
     stopButton.addEventListener("click", () => {
         record.stopRecord();
         syncMenu(false);
+        initMacroList();
     });
 
     playButton.addEventListener("click", () => {
         record.play(selectList.value);
     });
 
+    deleteButton.addEventListener("click", () => {
+        record.delete(selectList.value).then(initMacroList).then(() => {
+            alert("Recording deleted")
+        });
+    });
+
     function initMacroList() {
+        selectList.innerHTML = "";
         browser.storage.local.get().then(macros => {
             for (let macro of Object.keys(macros)) {
                 let newOption = document.createElement("option");
