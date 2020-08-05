@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Form filler</title>
+    <link rel="stylesheet" href="menu.css"/>
 </head>
 <body>
-<div>
-    <button id="record">Record</button>
-    <button id="stopRecord" disabled>Stop</button>
+<div class="menu-container">
+    <div class="btn-container">
+        <button class="btn btn-start" id="record">Record</button>
+        <button class="btn btn-stop" id="stopRecord" disabled>Stop</button>
+    </div>
     <hr>
-    <label for="selectedMacro">Select macro:</label>
-    <select id="selectedMacro">
+    <div class="macro-select-container">
+        <div>
+            <label for="selectedMacro">Select macro</label>
+            <select class="select-macro" id="selectedMacro">
+                <option>test</option>
+            </select>
+        </div>
+        <button class="btn btn-play" id="playMacro">Run</button>
+    </div>
 
-    </select>
-    <button id="playMacro">Run</button>
+
 </div>
 <script src="menu.js" type="module"></script>
 </body>

@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+}
+.menu-container {
+    padding: 10px;
+    border: 10px solid rgba(222, 73, 60, 0.74);
+    border-radius: 5px;
+}
+
+.btn-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.btn {
+    padding: 6px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    min-width: 50%;
+    margin: 3px;
+}
+
+.btn[disabled] {
+    background-color: #a5a5a5;
+}
+
+.btn-start {
+    background-color: #2495fd;
+}
+
+.btn-stop {
+    background-color: #d63e1f;
+}
+
+.btn-play {
+    background-color: #2ba535;
+    width: 100%;
+}
+
+.btn:hover {
+    box-shadow: 1px 1px 5px black;
+    cursor: pointer;
+}
+
+.btn[disabled]:hover {
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.macro-select-container {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+}
+.select-macro {
+    min-width: 100%;
+    padding: 5px;
+}
