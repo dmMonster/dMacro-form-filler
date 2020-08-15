@@ -31,12 +31,19 @@
     }
 
     function saveMacro(dataToSave) {
-        let macroName = prompt("Enter the macro name", Date.now().toString());
+        const macroDatetime = new Date().toLocaleString();
+        const macroName = prompt("Enter the macro name", `${document.title} ${macroDatetime}`);
 
-        console.log(dataToSave);
 
-        //TODO check if macro exists
-        browser.storage.local.set({[macroName]: dataToSave});
+        browser.storage.local.get(macroName).then(existedMacro => {
+            if (Object.keys(existedMacro).length === 0) {
+                browser.storage.local.set({[macroName]: dataToSave});
+            } else {
+                const updatePermission = confirm("Macro already exists. Do you want to overwrite it?");
+                !!updatePermission === true ? browser.storage.local.set({[macroName]: dataToSave}) : saveMacro(dataToSave);
+            }
+        });
+
     }
 
     browser.runtime.onMessage.addListener((message) => {
@@ -48,7 +55,7 @@
             saveMacro(dataToSave);
             dataToSave = {};
             running = false;
-        } else if(message.command === "status") {
+        } else if (message.command === "status") {
             return Promise.resolve({response: running});
         }
     });
