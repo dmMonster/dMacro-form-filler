@@ -16,7 +16,7 @@
 
         targetElement.form && targetElement.form.id && (inputSelector = inputSelector += "#" + targetElement.form.id);
 
-        targetElement.form && targetElement.form.action && (inputSelector += "[action='" + targetElement.form.action + "']");
+        targetElement.form && targetElement.form.action && (inputSelector += "[action='" + targetElement.form.getAttribute("action") + "']");
 
         inputSelector += " " + targetElement.localName;
 
