@@ -5,7 +5,11 @@
     function play(macroName) {
         browser.storage.local.get(macroName).then(selectedMacro => {
             for (let selector of Object.keys(selectedMacro[macroName])) {
-                document.querySelector(selector).value = selectedMacro[macroName][selector];
+                const elementToFill = document.querySelector(selector);
+                if (["checkbox", "radio"].includes(elementToFill.type) && !!selectedMacro[macroName][selector]) {
+                    elementToFill.checked = true;
+                }
+                elementToFill.value = selectedMacro[macroName][selector];
             }
         });
     }
