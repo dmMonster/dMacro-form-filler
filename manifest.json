@@ -11,7 +11,7 @@
   ],
   "browser_action": {
     "default_icon": "icons/main.svg",
-    "default_title": "dMacro",
+    "default_title": "Form horizon ",
     "default_popup": "popup/menu.html"
   }
 }
